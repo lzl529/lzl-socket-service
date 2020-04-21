@@ -1,6 +1,8 @@
 'use strict';
 
 const Controller = require('egg').Controller;
+const room = 'default_room';
+
 
 class ChatController extends Controller {
   async chat() {
@@ -10,7 +12,7 @@ class ChatController extends Controller {
     const msg = ctx.args[0] || {};
     const { socket: { id } } = ctx;
     console.log(`接收到的聊天内容为：id: ${id} -->> ${msg}`);
-    nsp.emit('receive-msg', { text: `马甲-${id}：${msg}`, key: `${id}-${+new Date()}` });
+    nsp.to(room).emit('receive-msg', { text: `马甲-${id}：${msg}`, key: `${id}-${+new Date()}` });
   }
 }
 module.exports = ChatController;
